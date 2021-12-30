@@ -42,8 +42,15 @@ public class Lambda04 {
         System.out.println();
         System.out.println("mapToDouble ve average çalıştık");
         System.out.println(ogrcSayi130BykBatch(list));
-
-
+        System.out.println();
+        System.out.println("**count- cointains***");
+        System.out.println(gunduzBatchSayisi(list));
+        System.out.println();
+        System.out.println("** max  **");
+        System.out.println(ogrcSayisi130FazlaEnBykBatch(list));
+        System.out.println();
+        System.out.println("** getToInt ve min()  **");
+        System.out.println(ogrcSayisi150AzEnKckBatch(list));
 
 
 
@@ -129,8 +136,8 @@ public class Lambda04 {
         return list.
                 stream().
                 filter(t-> t.getBatchOrt()>95). // 95den büyük şartı saglandı
-                        mapToInt( t->t.getOgrcSayisi()).
-                // reduce(0, Integer::sum);
+                        mapToInt( t->t.getOgrcSayisi()). // type göre int return eder ki sum() çalışır
+
                  sum();
 
     }
@@ -144,12 +151,38 @@ public class Lambda04 {
                 filter(t-> t.getOgrcSayisi()>130). // 130'dan büyük şartı saglandı
                 mapToDouble( t->t.getBatchOrt()).
                 average();
-
-
     }
 
+        // gunduz batchlerinin sayısını yazdırınız.
+    public static int gunduzBatchSayisi(List<TechPro>list) {
 
+        return (int) list.
+                stream().
+                filter(t-> t.getBatchName().
+                        contains("gunduz")).
+                count();
+    }
 
+       // ögrenci sayıları 130^dan fazla olan batchlerden en büyük batch ort'unu bulunuz.
+
+    public static OptionalInt ogrcSayisi130FazlaEnBykBatch(List<TechPro>list) {
+        return list.
+                stream().
+                filter(t->t.getOgrcSayisi()>130).
+                mapToInt(TechPro::getBatchOrt).
+                max();
+    }
+
+            // ögrenci sayıları 150'den az olan batchlerin en küçük batch ortalamasını bulunuz
+
+    public static int ogrcSayisi150AzEnKckBatch(List<TechPro>list) {
+        return list.
+                stream().
+                filter(t->t.getOgrcSayisi()<150).
+                mapToInt(TechPro::getBatchOrt).
+                min().
+                getAsInt();  // bu method çıktıyı int type olarak return eder.
+    }
 
 
 
